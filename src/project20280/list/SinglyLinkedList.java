@@ -179,6 +179,8 @@ public class SinglyLinkedList<E> implements List<E> {
         return sb.toString();
     }
 
+
+
     public static void main(String[] args) {
         SinglyLinkedList<Integer> ll = new SinglyLinkedList<Integer>();
         System.out.println("ll " + ll + " isEmpty: " + ll.isEmpty());
