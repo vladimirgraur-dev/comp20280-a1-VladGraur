@@ -6,33 +6,32 @@ import java.util.Iterator;
 
 public class CircularlyLinkedList<E> implements List<E> {
 
-    private class Node<T> {
-        private final T data;
-        private Node<T> next;
+    private class Node<E> {
+        private E data;
+        private Node<E> next;
 
-        public Node(T e, Node<T> n) {
+        public Node(E e, Node<E> n) {
             data = e;
             next = n;
         }
 
-        public T getData() {
+        public E getData() {
             return data;
         }
 
-        public void setNext(Node<T> n) {
+        public void setNext(Node<E> n) {
             next = n;
         }
 
-        public Node<T> getNext() {
+        public Node<E> getNext() {
             return next;
         }
     }
 
-    private final Node<E> tail = null;
-    private final int size = 0;
+    private Node<E> tail;
+    private int size = 0;
 
     public CircularlyLinkedList() {
-
     }
 
     @Override
@@ -41,31 +40,53 @@ public class CircularlyLinkedList<E> implements List<E> {
     }
 
     @Override
-    public E get(int i) {
-        // TODO
-        return null;
-    }
-
-    /**
-     * Inserts the given element at the specified index of the list, shifting all
-     * subsequent elements in the list one position further to make room.
-     *
-     * @param i the index at which the new element should be stored
-     * @param e the new element to be stored
-     */
-    @Override
-    public void add(int i, E e) {
-        // TODO
+    public E get(int position) {
+        Node<E> curr = (Node<E>) tail;
+        for (int i = 0; i < position + 1; i++) {
+            curr = curr.getNext();
+        }
+        return curr.getData();
     }
 
     @Override
-    public E remove(int i) {
-        // TODO
-        return null;
+    public void add(int position, E e) {
+        if (size == 0) {
+            tail = new Node<E>(e, tail);
+            tail.next = tail;
+        } else {
+
+            Node<E> curr = (Node<E>) tail;
+            for (int i = 0; i < position; i++) {
+                curr = curr.getNext();
+            }
+            Node<E> newest = new Node<E>(e, curr.next);
+            curr.next = newest;
+        }
+        size++;
+    }
+
+    @Override
+    public E remove(int position) {
+        if (isEmpty()) {
+            return null;
+        }
+
+        Node<E> previous = (Node<E>) tail;
+        for (int i = 0; i < position; i++) {
+            previous = previous.getNext();
+        }
+
+        Node<E> eliminated = previous.getNext();
+        previous.next = eliminated.getNext();
+
+        size--;
+        return eliminated.getData();
     }
 
     public void rotate() {
-        // TODO
+        addLast(tail.getNext().getData());
+        removeFirst();
+
     }
 
     private class CircularlyLinkedListIterator<E> implements Iterator<E> {
@@ -95,28 +116,69 @@ public class CircularlyLinkedList<E> implements List<E> {
         return size;
     }
 
-    @Override
+    // @Override
     public E removeFirst() {
-        // TODO
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+
+        E element = tail.getNext().getData();
+        tail.next = tail.getNext().getNext();
+        size--;
+        return element;
     }
 
-    @Override
+    // @Override
     public E removeLast() {
-        // TODO
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+
+        if (tail.getNext() == tail) {
+            E data = tail.getData();
+            tail = null;
+            size--;
+            return data;
+        }
+
+        Node<E> newLast = (Node<E>) tail;
+
+        for (int i = 0; i < size - 1; i++) {
+            newLast = newLast.getNext();
+        }
+        E data = tail.getData();
+        newLast.next = tail.next;
+        tail = newLast;
+
+        size--;
+        return data;
     }
 
-    @Override
+    // @Override
     public void addFirst(E e) {
-        // TODO
+        if (size == 0) {
+            tail = new Node<E>(e, tail);
+            tail.next = tail;
+        } else {
+            Node<E> oldFirst = tail.getNext();
+            Node<E> newFirst = new Node<E>(e, oldFirst);
+            tail.next = newFirst;
+        }
+        size++;
     }
 
-    @Override
+    // @Override
     public void addLast(E e) {
-        // TODO
+        if (size == 0) {
+            tail = new Node<E>(e, tail);
+            tail.next = tail;
+        } else {
+            Node<E> newest = new Node<E>(e, tail.next);
+            tail.next = newest;
+            tail = newest;
+        }
+        size++;
     }
-
 
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
@@ -131,7 +193,6 @@ public class CircularlyLinkedList<E> implements List<E> {
         sb.append("]");
         return sb.toString();
     }
-
 
     public static void main(String[] args) {
         CircularlyLinkedList<Integer> ll = new CircularlyLinkedList<Integer>();

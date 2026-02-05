@@ -5,7 +5,6 @@ import project20280.interfaces.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 class SinglyLinkedListTest {
 
     @Test
@@ -70,7 +69,7 @@ class SinglyLinkedListTest {
     @Test
     void testRemoveFirst() {
         List<Integer> ll = new SinglyLinkedList<Integer>();
-		assertNull(ll.removeFirst());
+        assertNull(ll.removeFirst());
 
         ll.addLast(1);
         ll.addLast(2);

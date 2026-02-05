@@ -3,7 +3,7 @@ package project20280.tree;
 import project20280.interfaces.Position;
 
 import java.util.ArrayList;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+//import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 /**
  * Concrete implementation of a binary tree using a node-based, linked
@@ -40,7 +40,8 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
     // nonpublic utility
 
     public static <T extends Integer> Node<T> randomTree(Node<T> parent, Integer first, Integer last) {
-        if (first > last) return null;
+        if (first > last)
+            return null;
         else {
             Integer treeSize = last - first + 1;
             Integer leftCount = rnd.nextInt(treeSize);
@@ -54,13 +55,12 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 
     // accessor methods (not already implemented in AbstractBinaryTree)
 
-    public static void main(String [] args) {
+    public static void main(String[] args) {
         LinkedBinaryTree<String> bt = new LinkedBinaryTree<>();
         String[] arr = { "A", "B", "C", "D", "E", null, "F", null, null, "G", "H", null, null, null, null };
         bt.createLevelOrder(arr);
         System.out.println(bt.toBinaryTreeString());
     }
-
 
     /**
      * Factory function to create a new node storing element e.
@@ -80,7 +80,8 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
      * @throws IllegalArgumentException if an invalid position is detected
      */
     protected Node<E> validate(Position<E> p) throws IllegalArgumentException {
-        if (!(p instanceof Node)) throw new IllegalArgumentException("Not valid position type");
+        if (!(p instanceof Node))
+            throw new IllegalArgumentException("Not valid position type");
         Node<E> node = (Node<E>) p; // safe cast
         if (node.getParent() == node) // our convention for defunct node
             throw new IllegalArgumentException("p is no longer in the tree");
